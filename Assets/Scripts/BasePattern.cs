@@ -12,7 +12,7 @@ public class BasePattern : MonoBehaviour
     {
         StartCoroutine(ProcessPattern());
     }
-
+    //
     //패턴이 끝나고 비활성화 될 때 실행되는 함수. 더 많은 기능이 필요하면 자식에서 구현.
     protected virtual void OnDisable()
     {
