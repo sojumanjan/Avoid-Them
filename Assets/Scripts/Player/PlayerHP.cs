@@ -6,8 +6,8 @@ using UnityEngine.Events;
 
 public class PlayerHP : MonoBehaviour
 {
-    public int maxHp = 5;
-    private int currentHp;
+    public int maxHp = 3;
+    public int curHP;
     public bool isInvincible = false;
     public float invincibleTime;
 
@@ -25,10 +25,11 @@ public class PlayerHP : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
+        maxHp += UpgradeManager.instance.hpState * 2; // hp 업글 활성화 시 최대 체력 2만큼 늘어남.
+        curHP = maxHp;
     }
     void Start()
     {
-        currentHp = maxHp;
         isInvincible = false;
     }
 
@@ -38,19 +39,19 @@ public class PlayerHP : MonoBehaviour
         if (isInvincible) return;
 
         // 맞는 순간 무적판정이 아니라면 체력 깎고 무적 On
-        currentHp -= damage;
+        curHP -= damage;
         isInvincible = true;
-        Debug.Log("플레이어 체력: " + currentHp);
+        Debug.Log("플레이어 체력: " + curHP);
 
         // 한대 맞았다고 알리고 무적시간 이후 무적 해제하기
         StartCoroutine(ChangeInvinciblity());
-        onHealthChanged?.Invoke(maxHp, currentHp);
+        onHealthChanged?.Invoke(maxHp, curHP);
         // 알 수 없는 이유로 방송 연결이 안되어 수동 호출.
-        LevelManager.instance.UpdateHP(maxHp, currentHp, isDamaged : true);
+        LevelManager.instance.UpdateHP(curHP, isDamaged : true);
         CameraController.instance.ShakeCamera();
 
         // 체력이 다 달면 파괴 후 죽었다고 알리고 맞는 소리내기.
-        if (currentHp <= 0)
+        if (curHP <= 0)
         {
             AudioManager.instance.PlaySFX(damagedLastSFX, 1f);
             onDie?.Invoke();

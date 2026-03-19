@@ -66,6 +66,7 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 1f;
         curStageNumStr = "Stage" + curStageNum + "Progress";
+        UpdateHP(PlayerHP.instance.curHP, isDamaged : false);
     }
 
     private void Update()
@@ -164,7 +165,7 @@ public class LevelManager : MonoBehaviour
     //----------------- 체력 변동 UI -----------------
     // PlayerHP에서 체력 변동 시 아래 함수 실행.
     // Action 활용하려 했으나 왜인지 발동이 안돼 수동 실행.
-    public void UpdateHP(int maxHP, int curHP, bool isDamaged = true)
+    public void UpdateHP(int curHP, bool isDamaged = true)
     {
         if (isDamaged) hitCount++;
         for (int i = 0; i < hps.Length; i++)
@@ -173,12 +174,12 @@ public class LevelManager : MonoBehaviour
             if (i < curHP)
             {
                 if (img.color.a <= 0.01f)
-                    hps[i].GetComponent<Image>()?.DOFade(1f, 0.5f);
+                    hps[i].GetComponent<Image>()?.DOFade(1f, 0.3f);
             }
             else if (hps[i].activeSelf) // 켜져있던 걸 끌 때만 연출 실행
             {
                 if (img.color.a >= 0.01)
-                    hps[i].GetComponent<Image>()?.DOFade(0f, 0.5f);
+                    hps[i].GetComponent<Image>()?.DOFade(0f, 0.3f);
             }
         }
     }
@@ -197,6 +198,7 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 0f;
         AudioManager.instance.PlaySFX(DieSFX, 1f);
         dieWindow.SetActive(true);
+        UpgradeManager.instance.AddOnePoints();
 
         // 생존 시간 텍스트 업데이트
         int min = (int)GameStageTimer.instance.currentTime / 60;

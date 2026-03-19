@@ -108,6 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 30
   gridSpacing: 1
+  gridWidth: 4
+  gridHeight: 4
   nextPos: {x: 0, y: 0}
   isStopped: 0
   moveSFX: {fileID: 8300000, guid: ac3c69da5fa40fa4597e250937be5ad9, type: 3}
@@ -124,7 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758390bd9c04575459ae4fc1ff82a978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
-  maxHp: 5
+  maxHp: 3
+  curHP: 0
   isInvincible: 0
   invincibleTime: 1.5
   damagedSFX: {fileID: 8300000, guid: 3184f1945befdd64fbd69e983bfbd2c1, type: 3}
