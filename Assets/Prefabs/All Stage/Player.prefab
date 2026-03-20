@@ -128,8 +128,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
   maxHp: 3
   curHP: 0
-  isInvincible: 0
   invincibleTime: 1.5
+  shieldRecoveryTime: 15
+  isInvincible: 0
+  hasShieldUpgraded: 0
+  hasShield: 0
   damagedSFX: {fileID: 8300000, guid: 3184f1945befdd64fbd69e983bfbd2c1, type: 3}
   damagedLastSFX: {fileID: 8300000, guid: d2330707dd30bf74fae117a33f494775, type: 3}
 --- !u!111 &5376244442792208387

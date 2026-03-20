@@ -27,6 +27,7 @@ public class LevelManager : MonoBehaviour
     [Header("UI 이미지")]
     public GameObject[] countDownTexts;
     public GameObject[] hps;
+    public GameObject shield;
     public GameObject fadeIn;
     public GameObject fadeOut;
 
@@ -53,20 +54,18 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         if (instance == null) instance = this;
-    }
-
-    private void Start()
-    {
-        // 윈도우들 초기화
         pauseWindow.SetActive(false);
         optionWindow.SetActive(false);
         stageClearWindow.SetActive(false);
         dieWindow.SetActive(false);
         fadeIn.SetActive(true);
-
         Time.timeScale = 1f;
         curStageNumStr = "Stage" + curStageNum + "Progress";
-        UpdateHP(PlayerHP.instance.curHP, isDamaged : false);
+    }
+
+    private void Start()
+    {
+
     }
 
     private void Update()
@@ -182,6 +181,15 @@ public class LevelManager : MonoBehaviour
                     hps[i].GetComponent<Image>()?.DOFade(0f, 0.3f);
             }
         }
+    }
+    // ----------------- 쉴드 재생 및 삭제 -----------------
+    public void ShieldImageRecover()
+    {
+        shield.GetComponent<Image>().DOFade(1f, 0.3f);
+    }
+    public void ShieldImageDelete()
+    {
+        shield.GetComponent<Image>().DOFade(0f, 0.3f);
     }
 
     // ----------------- 캐릭터 사망 시 -----------------

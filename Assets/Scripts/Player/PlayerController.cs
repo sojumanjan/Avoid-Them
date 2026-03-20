@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
         nextPos = startPos;
 
         gameManager = BombPattern.instance;
-        playerHP.onHealthChanged = Damaged;
         playerHP.onDie = Die;
     }
 
@@ -83,12 +82,6 @@ public class PlayerController : MonoBehaviour
         if (curY >= gridHeight) curY = 0;
         if (curY < 0) curY = gridHeight - 1;
         nextPos = new Vector2(startPos.x + curX * gridSpacing, startPos.y + curY * gridSpacing);
-    }
-
-    // 대미지 받았을 때 스프라이트 애니메이션 발동
-    void Damaged(int a, int b)
-    {
-        GetComponent<Animation>().Play();
     }
 
     void Die()
