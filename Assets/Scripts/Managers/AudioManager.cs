@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; // 씬 이동 감지용
@@ -10,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource bgmSource; // 배경음용 스피커 (Loop 체크 필수)
     public AudioClip[] bgms;
     private List<AudioClip> playlist = new List<AudioClip>();
+    private Coroutine bgmCoroutine;
 
     [Header("SFX")]
     public AudioSource sfxSource; // 효과음용 스피커
@@ -59,18 +61,7 @@ public class AudioManager : MonoBehaviour
         playlist.Clear();
         PlayNextTrack();
     }
-
-    void Update()
-    {
-        // 노래가 끝났는지 체크 (재생 중이 아니고 + 오디오 소스가 켜져있다면)
-        if (!bgmSource.isPlaying && bgmSource.clip != null)
-        {
-            if (bgmSource.time == 0)
-            {
-                PlayNextTrack();
-            }
-        }
-    }
+    
 
     // 배경음 재생
     public void PlayNextTrack()
@@ -83,8 +74,18 @@ public class AudioManager : MonoBehaviour
         // 안비었으면 맨 앞에꺼 플레이하고 삭제하기
         AudioClip nextClip = playlist[0];
         playlist.RemoveAt(0);
-        bgmSource.clip = nextClip;
+
+        if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
+        bgmCoroutine = StartCoroutine(PlayBGMRoutine(nextClip));
+    }
+    
+    // 현재 bgm 클립 루틴 시작하기.
+    IEnumerator PlayBGMRoutine(AudioClip clip)
+    {
+        bgmSource.clip = clip;
         bgmSource.Play();
+        yield return new WaitForSecondsRealtime(clip.length); // 현재 bgm 길이만큼 대기 후 다음 곡 재생
+        PlayNextTrack(); // 끝나면 다음 곡
     }
 
     // 리스트 비우고 원본에서 다시 채워넣기

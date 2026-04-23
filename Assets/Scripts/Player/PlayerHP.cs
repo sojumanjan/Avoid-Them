@@ -15,6 +15,7 @@ public class PlayerHP : MonoBehaviour
     public bool isInvincible = false;
     public int hasShieldUpgraded = 0;
     public bool hasShield = false;
+    private Coroutine shieldCor;
 
     // 맞았을 때 현재 체력과 함께 방송
     public Action<int, int> onHealthChanged;
@@ -41,6 +42,8 @@ public class PlayerHP : MonoBehaviour
         hasShield = true;
         if (hasShieldUpgraded < 1) LevelManager.instance.ShieldImageDelete();
 
+        invincibleTime = (PlayerPrefs.GetInt("invincibilityState", 0) >= 0) ? 3.0f : 1.5f;
+
         isInvincible = false;
     }
 
@@ -52,18 +55,24 @@ public class PlayerHP : MonoBehaviour
         isInvincible = true;
         StartCoroutine(ChangeInvinciblity());
 
-        if (hasShieldUpgraded >= 1)
+        if (hasShieldUpgraded >= 1) //쉴드 업그레이드 활성화 되어있고
         {
-            // 쉴드 업글 돼있고 쉴드 있으면 체력 대신 쉴드 까기.
+            // 현재 쉴드가 있으면 체력 대신 쉴드 까기.
             if (hasShield)
             {
                 hasShield = false;
                 LevelManager.instance.ShieldImageDelete();
-                StartCoroutine(RecoverShield());
+                shieldCor = StartCoroutine(RecoverShield());
 
                 AudioManager.instance.PlaySFX(damagedSFX, 1f);
                 CameraController.instance.ShakeCamera();
                 return;
+            }
+            // 현재 쉴드가 없다면 쉴드 쿨타임 초기화
+            else
+            {
+                if (shieldCor != null) StopCoroutine(shieldCor);
+                StartCoroutine(RecoverShield());
             }
         }
 
@@ -95,7 +104,7 @@ public class PlayerHP : MonoBehaviour
     // 무적시간 기다린 후 무적판정 off하기
     IEnumerator ChangeInvinciblity()
     {
-        PlayerController.instance.GetComponent<SpriteRenderer>().DOFade(0.15f, 0.1f);
+        PlayerController.instance.GetComponent<SpriteRenderer>().DOFade(0.10f, 0.1f);
         yield return new WaitForSeconds(invincibleTime);
         PlayerController.instance.GetComponent<SpriteRenderer>().DOFade(1f, 0.1f);
         isInvincible = false;
