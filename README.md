@@ -2,7 +2,10 @@
 
 > **날아오는 모든 것을 피해라.** 단, 당신이 움직일 수 있는 칸은 정해져 있다.
 
-<img width="400" height="226" alt="Image" src="https://github.com/user-attachments/assets/387c68e7-01d9-431b-be66-5e496f09c6c4" />
+<div align="center">
+  <img width="400" height="226" alt="Image" src="https://github.com/user-attachments/assets/387c68e7-01d9-431b-be66-5e496f09c6c4" />
+</div>
+
 
 ---
 
