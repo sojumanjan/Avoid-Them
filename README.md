@@ -48,4 +48,4 @@
 
 ## 플레이하기
 
-▶️ **[itch.io에서 플레이]({{[ITCH_URL](https://jihoonhan.itch.io/avoid-them11)}})**
+▶️ [itch.io에서 플레이하기](https://jihoonhan.itch.io/avoid-them11)
